@@ -1,0 +1,33 @@
+version: 2
+services:
+  backend:
+    path: ./backend
+    plan: starter
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    envVars:
+      - key: PORT
+        value: 3004
+      - key: DEEPSEEK_API_KEY
+        fromService:
+          name: deepseek-api-key
+          key: DEEPSEEK_API_KEY
+      - key: DATABASE_URL
+        fromService:
+          name: railway-postgres
+          key: DATABASE_URL
+  
+  frontend:
+    path: ./frontend
+    plan: starter
+    env: node
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          name: backend
+          envVarKey: RAILWAY_PUBLIC_DOMAIN 
