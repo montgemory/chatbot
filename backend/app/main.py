@@ -21,7 +21,11 @@ app = FastAPI(title="Deepseek 聊天机器人 API")
 # 添加 CORS 中间件
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3007"],  # 只允许前端地址访问
+    allow_origins=[
+        "http://localhost:3007", 
+        "http://localhost:8080",  
+        "https://chatbot-backend-production-4462.up.railway.app"
+    ],  # 允许前端地址访问
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
